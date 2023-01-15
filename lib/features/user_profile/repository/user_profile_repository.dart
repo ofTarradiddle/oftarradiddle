@@ -16,10 +16,13 @@ final userProfileRepositoryProvider = Provider((ref) {
 
 class UserProfileRepository {
   final FirebaseFirestore _firestore;
-  UserProfileRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
+  UserProfileRepository({required FirebaseFirestore firestore})
+      : _firestore = firestore;
 
-  CollectionReference get _users => _firestore.collection(FirebaseConstants.usersCollection);
-  CollectionReference get _posts => _firestore.collection(FirebaseConstants.postsCollection);
+  CollectionReference get _users =>
+      _firestore.collection(FirebaseConstants.usersCollection);
+  CollectionReference get _posts =>
+      _firestore.collection(FirebaseConstants.postsCollection);
 
   FutureVoid editProfile(UserModel user) async {
     try {
@@ -32,7 +35,11 @@ class UserProfileRepository {
   }
 
   Stream<List<Post>> getUserPosts(String uid) {
-    return _posts.where('uid', isEqualTo: uid).orderBy('createdAt', descending: true).snapshots().map(
+    return _posts
+        .where('uid', isEqualTo: uid)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
           (event) => event.docs
               .map(
                 (e) => Post.fromMap(

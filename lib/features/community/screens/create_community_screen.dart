@@ -8,11 +8,13 @@ class CreateCommunityScreen extends ConsumerStatefulWidget {
   const CreateCommunityScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CreateCommunityScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CreateCommunityScreenState();
 }
 
 class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
   final communityNameController = TextEditingController();
+  final _fieldNamesController = TextEditingController();
 
   @override
   void dispose() {
@@ -23,6 +25,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
   void createCommunity() {
     ref.read(communityControllerProvider.notifier).createCommunity(
           communityNameController.text.trim(),
+          _fieldNamesController.text.split(',').map((s) => s.trim()).toList(),
           context,
         );
   }
@@ -56,6 +59,20 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
                         contentPadding: EdgeInsets.all(18),
                       ),
                       maxLength: 21,
+                    ),
+
+                    //add fields to study
+                    TextFormField(
+                      controller: _fieldNamesController,
+                      decoration: const InputDecoration(
+                        labelText: 'Field names (comma-separated)',
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter field names';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton(

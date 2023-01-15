@@ -2,6 +2,24 @@
 
 Responsive Full Stack Reddit Clone - Works on Android, iOS & Web! 
 
+
+TODO
+Add to Study page 
+  data entry for each study page 
+
+  switch between home page and ...
+  DataEntry Page
+  analytics page with datatable and timeseries drop downs, others later
+    - mock group analytics page (not enough participants )
+  favorited studies move to top of list - similar to what I already have 
+
+sign in with email 
+fix sign in so it propogates
+see if search can be quicker, is my solution better?
+
+-> make custom with of nectar style 
+
+
 ## Features
 - Google/Guest Authentication
 - Create, Join community
@@ -17,7 +35,8 @@ Responsive Full Stack Reddit Clone - Works on Android, iOS & Web!
 - Moderator- remove post
 - Delete post
 - User Profile (Avatar, Banner) 
-- Theme Switch
+- Theme SwitchY
+
 - Cross Platform
 - Responsive UI
 - Latest posts (instead of home, display this to guest users) 

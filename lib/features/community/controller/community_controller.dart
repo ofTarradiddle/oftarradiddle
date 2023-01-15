@@ -12,14 +12,17 @@ import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
 import 'package:reddit_tutorial/features/community/repository/communitory_repository.dart';
 import 'package:reddit_tutorial/models/community_model.dart';
 import 'package:reddit_tutorial/models/post_model.dart';
+import 'package:reddit_tutorial/models/study_data_model.dart';
 import 'package:routemaster/routemaster.dart';
+import 'dart:typed_data';
 
 final userCommunitiesProvider = StreamProvider((ref) {
   final communityController = ref.watch(communityControllerProvider.notifier);
   return communityController.getUserCommunities();
 });
 
-final communityControllerProvider = StateNotifierProvider<CommunityController, bool>((ref) {
+final communityControllerProvider =
+    StateNotifierProvider<CommunityController, bool>((ref) {
   final communityRepository = ref.watch(communityRepositoryProvider);
   final storageRepository = ref.watch(storageRepositoryProvider);
   return CommunityController(
@@ -30,7 +33,9 @@ final communityControllerProvider = StateNotifierProvider<CommunityController, b
 });
 
 final getCommunityByNameProvider = StreamProvider.family((ref, String name) {
-  return ref.watch(communityControllerProvider.notifier).getCommunityByName(name);
+  return ref
+      .watch(communityControllerProvider.notifier)
+      .getCommunityByName(name);
 });
 
 final searchCommunityProvider = StreamProvider.family((ref, String query) {
@@ -54,12 +59,14 @@ class CommunityController extends StateNotifier<bool> {
         _storageRepository = storageRepository,
         super(false);
 
-  void createCommunity(String name, BuildContext context) async {
+  void createCommunity(
+      String name, List<String> fieldNames, BuildContext context) async {
     state = true;
     final uid = _ref.read(userProvider)?.uid ?? '';
     Community community = Community(
       id: name,
       name: name,
+      fieldNames: fieldNames,
       banner: Constants.bannerDefault,
       avatar: Constants.avatarDefault,
       members: [uid],
@@ -151,8 +158,20 @@ class CommunityController extends StateNotifier<bool> {
     return _communityRepository.searchCommunity(query);
   }
 
-  void addMods(String communityName, List<String> uids, BuildContext context) async {
+  void addMods(
+      String communityName, List<String> uids, BuildContext context) async {
     final res = await _communityRepository.addMods(communityName, uids);
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) => Routemaster.of(context).pop(),
+    );
+  }
+
+//String communityName, String user, StudyData entry
+  //todo
+  void addData(String communityName, String user, StudyData entry,
+      BuildContext context) async {
+    final res = await _communityRepository.addData(communityName, user, entry);
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) => Routemaster.of(context).pop(),

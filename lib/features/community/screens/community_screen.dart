@@ -10,6 +10,7 @@ import 'package:routemaster/routemaster.dart';
 
 class CommunityScreen extends ConsumerWidget {
   final String name;
+
   const CommunityScreen({super.key, required this.name});
 
   // http://localhost:4000/r/flutter
@@ -18,8 +19,14 @@ class CommunityScreen extends ConsumerWidget {
     Routemaster.of(context).push('/mod-tools/$name');
   }
 
+  void navigateToAddData(BuildContext context) {
+    Routemaster.of(context).push('/add-data/$name');
+  }
+
   void joinCommunity(WidgetRef ref, Community community, BuildContext context) {
-    ref.read(communityControllerProvider.notifier).joinCommunity(community, context);
+    ref
+        .read(communityControllerProvider.notifier)
+        .joinCommunity(community, context);
   }
 
   @override
@@ -70,6 +77,21 @@ class CommunityScreen extends ConsumerWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+
+                              //Add Data Button
+                              OutlinedButton(
+                                onPressed: () {
+                                  navigateToAddData(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25),
+                                ),
+                                child: const Text('Add Data!'),
+                              ),
                               if (!isGuest)
                                 community.mods.contains(user.uid)
                                     ? OutlinedButton(
@@ -78,21 +100,29 @@ class CommunityScreen extends ConsumerWidget {
                                         },
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(20),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
-                                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 25),
                                         ),
                                         child: const Text('Mod Tools'),
                                       )
                                     : OutlinedButton(
-                                        onPressed: () => joinCommunity(ref, community, context),
+                                        onPressed: () => joinCommunity(
+                                            ref, community, context),
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(20),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
-                                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 25),
                                         ),
-                                        child: Text(community.members.contains(user.uid) ? 'Joined' : 'Join'),
+                                        child: Text(
+                                            community.members.contains(user.uid)
+                                                ? 'Joined'
+                                                : 'Join'),
                                       ),
                             ],
                           ),

@@ -6,6 +6,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:reddit_tutorial/core/failure.dart';
 import 'package:reddit_tutorial/core/providers/firebase_providers.dart';
 import 'package:reddit_tutorial/core/type_defs.dart';
+import 'dart:typed_data';
 
 final storageRepositoryProvider = Provider(
   (ref) => StorageRepository(
@@ -16,7 +17,8 @@ final storageRepositoryProvider = Provider(
 class StorageRepository {
   final FirebaseStorage _firebaseStorage;
 
-  StorageRepository({required FirebaseStorage firebaseStorage}) : _firebaseStorage = firebaseStorage;
+  StorageRepository({required FirebaseStorage firebaseStorage})
+      : _firebaseStorage = firebaseStorage;
 
   FutureEither<String> storeFile({
     required String path,

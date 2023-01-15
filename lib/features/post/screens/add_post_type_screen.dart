@@ -12,6 +12,7 @@ import 'package:reddit_tutorial/features/post/controller/post_controller.dart';
 import 'package:reddit_tutorial/models/community_model.dart';
 import 'package:reddit_tutorial/responsive/responsive.dart';
 import 'package:reddit_tutorial/theme/pallete.dart';
+import 'dart:typed_data';
 
 class AddPostTypeScreen extends ConsumerStatefulWidget {
   final String type;
@@ -21,7 +22,8 @@ class AddPostTypeScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AddPostTypeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AddPostTypeScreenState();
 }
 
 class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
@@ -57,7 +59,9 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
   }
 
   void sharePost() {
-    if (widget.type == 'image' && (bannerFile != null || bannerWebFile != null) && titleController.text.isNotEmpty) {
+    if (widget.type == 'image' &&
+        (bannerFile != null || bannerWebFile != null) &&
+        titleController.text.isNotEmpty) {
       ref.read(postControllerProvider.notifier).shareImagePost(
             context: context,
             title: titleController.text.trim(),
@@ -72,7 +76,9 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
             selectedCommunity: selectedCommunity ?? communities[0],
             description: descriptionController.text.trim(),
           );
-    } else if (widget.type == 'link' && titleController.text.isNotEmpty && linkController.text.isNotEmpty) {
+    } else if (widget.type == 'link' &&
+        titleController.text.isNotEmpty &&
+        linkController.text.isNotEmpty) {
       ref.read(postControllerProvider.notifier).shareLinkPost(
             context: context,
             title: titleController.text.trim(),
@@ -196,7 +202,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                                   .toList(),
                               onChanged: (val) {
                                 setState(() {
-                                  selectedCommunity = val;
+                                  selectedCommunity = val as Community?;
                                 });
                               },
                             );

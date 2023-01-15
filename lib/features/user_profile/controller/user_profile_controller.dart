@@ -11,8 +11,10 @@ import 'package:reddit_tutorial/features/user_profile/repository/user_profile_re
 import 'package:reddit_tutorial/models/post_model.dart';
 import 'package:reddit_tutorial/models/user_model.dart';
 import 'package:routemaster/routemaster.dart';
+import 'dart:typed_data';
 
-final userProfileControllerProvider = StateNotifierProvider<UserProfileController, bool>((ref) {
+final userProfileControllerProvider =
+    StateNotifierProvider<UserProfileController, bool>((ref) {
   final userProfileRepository = ref.watch(userProfileRepositoryProvider);
   final storageRepository = ref.watch(storageRepositoryProvider);
   return UserProfileController(
@@ -97,6 +99,7 @@ class UserProfileController extends StateNotifier<bool> {
     user = user.copyWith(karma: user.karma + karma.karma);
 
     final res = await _userProfileRepository.updateUserKarma(user);
-    res.fold((l) => null, (r) => _ref.read(userProvider.notifier).update((state) => user));
+    res.fold((l) => null,
+        (r) => _ref.read(userProvider.notifier).update((state) => user));
   }
 }

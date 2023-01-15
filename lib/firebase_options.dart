@@ -46,6 +46,18 @@ class DefaultFirebaseOptions {
     }
   }
 
+//Firebase project configuration
+//https://support.google.com/firebase/answer/7015592#zippy=%2Cin-this-article
+//project settings -> your app
+
+  static const FirebaseOptions web = FirebaseOptions(
+      apiKey: "AIzaSyCT2_N1K0GPK_CH70nZclpYaict8bP1I2w",
+      authDomain: "test-f2735.firebaseapp.com",
+      projectId: "test-f2735",
+      storageBucket: "test-f2735.appspot.com",
+      messagingSenderId: "312286583246",
+      appId: "1:312286583246:web:46951268203887f2bc739f");
+/*
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBTa5m4-ePHiM5PPrQQj4LugraI5ADEk3M',
     appId: '1:380609523336:web:d30895dbd69584a931b93d',
@@ -54,7 +66,7 @@ class DefaultFirebaseOptions {
     authDomain: 'reddit-clone-tutorial-8091a.firebaseapp.com',
     storageBucket: 'reddit-clone-tutorial-8091a.appspot.com',
   );
-
+*/
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAxyQ7EgDw-ZSrCTqnBStYo_OIPCfbmE-4',
     appId: '1:380609523336:android:bb576b87cbb505fd31b93d',
@@ -69,7 +81,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '380609523336',
     projectId: 'reddit-clone-tutorial-8091a',
     storageBucket: 'reddit-clone-tutorial-8091a.appspot.com',
-    iosClientId: '380609523336-2amum5bidqtue1scvv8mbb0c11lj6k7d.apps.googleusercontent.com',
+    iosClientId:
+        '380609523336-2amum5bidqtue1scvv8mbb0c11lj6k7d.apps.googleusercontent.com',
     iosBundleId: 'com.example.redditTutorial',
   );
 }

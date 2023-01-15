@@ -7,6 +7,7 @@ import 'package:reddit_tutorial/core/providers/firebase_providers.dart';
 import 'package:reddit_tutorial/core/type_defs.dart';
 import 'package:reddit_tutorial/models/community_model.dart';
 import 'package:reddit_tutorial/models/post_model.dart';
+import 'package:reddit_tutorial/models/study_data_model.dart';
 
 final communityRepositoryProvider = Provider((ref) {
   return CommunityRepository(firestore: ref.watch(firestoreProvider));
@@ -14,7 +15,8 @@ final communityRepositoryProvider = Provider((ref) {
 
 class CommunityRepository {
   final FirebaseFirestore _firestore;
-  CommunityRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
+  CommunityRepository({required FirebaseFirestore firestore})
+      : _firestore = firestore;
 
   FutureVoid createCommunity(Community community) async {
     try {
@@ -56,7 +58,10 @@ class CommunityRepository {
   }
 
   Stream<List<Community>> getUserCommunities(String uid) {
-    return _communities.where('members', arrayContains: uid).snapshots().map((event) {
+    return _communities
+        .where('members', arrayContains: uid)
+        .snapshots()
+        .map((event) {
       List<Community> communities = [];
       for (var doc in event.docs) {
         communities.add(Community.fromMap(doc.data() as Map<String, dynamic>));
@@ -66,7 +71,8 @@ class CommunityRepository {
   }
 
   Stream<Community> getCommunityByName(String name) {
-    return _communities.doc(name).snapshots().map((event) => Community.fromMap(event.data() as Map<String, dynamic>));
+    return _communities.doc(name).snapshots().map(
+        (event) => Community.fromMap(event.data() as Map<String, dynamic>));
   }
 
   FutureVoid editCommunity(Community community) async {
@@ -95,7 +101,8 @@ class CommunityRepository {
         .map((event) {
       List<Community> communities = [];
       for (var community in event.docs) {
-        communities.add(Community.fromMap(community.data() as Map<String, dynamic>));
+        communities
+            .add(Community.fromMap(community.data() as Map<String, dynamic>));
       }
       return communities;
     });
@@ -113,8 +120,24 @@ class CommunityRepository {
     }
   }
 
+  FutureVoid addData(String communityName, String user, StudyData entry) async {
+    try {
+      return right(
+          // ignore: void_checks
+          _communities.doc(communityName).collection(user).add(entry.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
   Stream<List<Post>> getCommunityPosts(String name) {
-    return _posts.where('communityName', isEqualTo: name).orderBy('createdAt', descending: true).snapshots().map(
+    return _posts
+        .where('communityName', isEqualTo: name)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
           (event) => event.docs
               .map(
                 (e) => Post.fromMap(
@@ -125,6 +148,8 @@ class CommunityRepository {
         );
   }
 
-  CollectionReference get _posts => _firestore.collection(FirebaseConstants.postsCollection);
-  CollectionReference get _communities => _firestore.collection(FirebaseConstants.communitiesCollection);
+  CollectionReference get _posts =>
+      _firestore.collection(FirebaseConstants.postsCollection);
+  CollectionReference get _communities =>
+      _firestore.collection(FirebaseConstants.communitiesCollection);
 }
