@@ -19,6 +19,8 @@ import 'package:reddit_tutorial/features/user_profile/screens/user_profile_scree
 import 'package:reddit_tutorial/models/community_model.dart';
 import 'package:routemaster/routemaster.dart';
 
+import 'features/community/screens/user_data_screen.dart';
+
 final loggedOutRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: LoginScreen()),
 });
@@ -40,6 +42,11 @@ final loggedInRoute = RouteMap(
         ),
     '/add-data/:name': (routeData) => MaterialPage(
           child: AddDataScreen(
+            name: routeData.pathParameters['name']!,
+          ),
+        ),
+    '/user-data/:name': (routeData) => MaterialPage(
+          child: UserDataScreen(
             name: routeData.pathParameters['name']!,
           ),
         ),

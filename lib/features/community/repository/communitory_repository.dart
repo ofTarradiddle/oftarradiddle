@@ -120,11 +120,11 @@ class CommunityRepository {
     }
   }
 
-  FutureVoid addData(String communityName, String user, StudyData entry) async {
+  FutureVoid addData(StudyData entry) async {
     try {
       return right(
           // ignore: void_checks
-          _communities.doc(communityName).collection(user).add(entry.toMap()));
+          _studies.add(entry.toMap()));
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
@@ -148,8 +148,28 @@ class CommunityRepository {
         );
   }
 
+//get user data in community
+  Stream<List<StudyData>> getUserStudyData(String name) {
+    return _studies
+        .where('name', isEqualTo: name)
+        //.where('userId', isEqualTo: user)
+        //.orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => StudyData.fromMap(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+
   CollectionReference get _posts =>
       _firestore.collection(FirebaseConstants.postsCollection);
   CollectionReference get _communities =>
       _firestore.collection(FirebaseConstants.communitiesCollection);
+  CollectionReference get _studies =>
+      _firestore.collection(FirebaseConstants.studiesCollection);
 }

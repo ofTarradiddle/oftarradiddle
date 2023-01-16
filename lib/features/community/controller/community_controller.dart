@@ -46,6 +46,12 @@ final getCommunityPostsProvider = StreamProvider.family((ref, String name) {
   return ref.read(communityControllerProvider.notifier).getCommunityPosts(name);
 });
 
+//provider for user data
+
+final getCommunityDataProvider = StreamProvider.family((ref, String name) {
+  return ref.read(communityControllerProvider.notifier).getUserStudyData(name);
+});
+
 class CommunityController extends StateNotifier<bool> {
   final CommunityRepository _communityRepository;
   final Ref _ref;
@@ -169,9 +175,11 @@ class CommunityController extends StateNotifier<bool> {
 
 //String communityName, String user, StudyData entry
   //todo
-  void addData(String communityName, String user, StudyData entry,
+  void addData(
+      StudyData entry, //String communityName, String user,
       BuildContext context) async {
-    final res = await _communityRepository.addData(communityName, user, entry);
+    final res =
+        await _communityRepository.addData(entry); //communityName, user,
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) => Routemaster.of(context).pop(),
@@ -180,5 +188,9 @@ class CommunityController extends StateNotifier<bool> {
 
   Stream<List<Post>> getCommunityPosts(String name) {
     return _communityRepository.getCommunityPosts(name);
+  }
+
+  Stream<List<StudyData>> getUserStudyData(String name) {
+    return _communityRepository.getUserStudyData(name);
   }
 }

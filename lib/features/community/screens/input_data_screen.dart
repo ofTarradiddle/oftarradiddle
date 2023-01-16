@@ -188,10 +188,11 @@ class _AddDataScreenState extends ConsumerState<AddDataScreen> {
     print(entry);
 
     ref.read(communityControllerProvider.notifier).addData(
-        widget.name,
-        nameController.text,
+        //widget.name,
+        //nameController.text,
         StudyData(
           userId: nameController.text,
+          name: widget.name,
           timestamp: DateTime.now().toIso8601String(),
           data: entry,
         ),

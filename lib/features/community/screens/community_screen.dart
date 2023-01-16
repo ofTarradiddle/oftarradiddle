@@ -23,6 +23,10 @@ class CommunityScreen extends ConsumerWidget {
     Routemaster.of(context).push('/add-data/$name');
   }
 
+  void navigateToUserData(BuildContext context) {
+    Routemaster.of(context).push('/user-data/$name');
+  }
+
   void joinCommunity(WidgetRef ref, Community community, BuildContext context) {
     ref
         .read(communityControllerProvider.notifier)
@@ -91,6 +95,20 @@ class CommunityScreen extends ConsumerWidget {
                                       horizontal: 25),
                                 ),
                                 child: const Text('Add Data!'),
+                              ),
+                              //View User Analytics
+                              OutlinedButton(
+                                onPressed: () {
+                                  navigateToUserData(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25),
+                                ),
+                                child: const Text('View Statistics!'),
                               ),
                               if (!isGuest)
                                 community.mods.contains(user.uid)
