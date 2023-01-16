@@ -6,6 +6,7 @@ import 'package:reddit_tutorial/core/constants/firebase_constants.dart';
 import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
 import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
 import 'package:reddit_tutorial/features/community/repository/communitory_repository.dart';
+import 'package:reddit_tutorial/features/community/screens/dropdown_widget.dart';
 import 'package:reddit_tutorial/models/study_data_model.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -81,6 +82,20 @@ class UserDataScreen extends ConsumerWidget {
   final String name;
   const UserDataScreen({super.key, required this.name});
 
+  void makeDataset(List<StudyData> data) {
+    //can pass this into the decision tree
+    Map<String, List> fieldData = {};
+
+    for (var item in data) {
+      for (var field in item.data.keys) {
+        if (!fieldData.containsKey(field)) {
+          fieldData[field] = [];
+        }
+        fieldData[field]?.add(item.data[field]);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider)!;
@@ -96,28 +111,40 @@ class UserDataScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: ref.watch(getCommunityDataProvider(name)).when(
-            data: (data) {
-              return ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final study = data[index];
-                  final items = data[index].data;
-                  print(study.name);
-                  return ListTile(
-                    leading: const Icon(Icons.input),
-                    title: Text(
-                        '${study.name}   ${items.values.map((e) => e.toString()).join(',')}'),
-                    onTap: () => {},
+      body:
+          //timeseriesd
+
+          DropdownList(
+        name: name,
+      ),
+
+      //dropdowns of
+      //datatable
+      //decision tree
+      //correlation matrix
+      /*
+          ref.watch(getCommunityDataProvider(name)).when(
+                data: (data) {
+                  return ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final study = data[index];
+                      final items = data[index].data;
+                      print(study.name);
+                      return ListTile(
+                        leading: const Icon(Icons.input),
+                        title: Text(
+                            '${study.name}   ${items.values.map((e) => e.toString()).join(',')}'),
+                        onTap: () => {},
+                      );
+                    },
                   );
                 },
-              );
-            },
-            error: (error, stackTrace) {
-              return ErrorText(error: error.toString());
-            },
-            loading: () => const Loader(),
-          ),
+                error: (error, stackTrace) {
+                  return ErrorText(error: error.toString());
+                },
+                loading: () => const Loader(),
+              ),*/
     );
   }
 }
