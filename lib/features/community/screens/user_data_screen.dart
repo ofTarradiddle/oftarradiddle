@@ -113,10 +113,15 @@ class UserDataScreen extends ConsumerWidget {
       ),
       body:
           //timeseriesd
-
-          DropdownList(
+          StudyDataChart(
         name: name,
+        userId: user.name,
+        timeFilter: DateTime(2021, 1, 1),
       ),
+
+      //DropdownList(
+      //  name: name,
+      //),
 
       //dropdowns of
       //datatable
