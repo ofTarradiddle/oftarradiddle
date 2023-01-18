@@ -111,22 +111,29 @@ class UserDataScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body:
-          //timeseriesd
+      body: Stack(
+        children: [
+          //Time Series
           StudyDataChart(
-        name: name,
-        userId: user.name,
-        timeFilter: DateTime(2021, 1, 1),
+            name: name,
+            userId: user.name,
+            timeFilter: DateTime(2021, 1, 1),
+          ),
+
+          //DataTable
+
+          DropdownList(
+            name: name,
+          ),
+        ],
       ),
 
-      //DropdownList(
-      //  name: name,
-      //),
+      // ignore: todo
+      //TODO
+      //DROPDOWNS OF
+      //DECISION TREE
+      //CORRELATION MATRI
 
-      //dropdowns of
-      //datatable
-      //decision tree
-      //correlation matrix
       /*
           ref.watch(getCommunityDataProvider(name)).when(
                 data: (data) {
