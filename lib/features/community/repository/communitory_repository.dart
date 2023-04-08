@@ -153,7 +153,7 @@ class CommunityRepository {
     return _studies
         .where('name', isEqualTo: name)
         //.where('userId', isEqualTo: user)
-        //.orderBy('createdAt', descending: true)
+        //.orderBy('createdAt', descending: false)
         .snapshots()
         .map(
           (event) => event.docs

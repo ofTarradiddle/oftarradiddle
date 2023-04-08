@@ -40,7 +40,20 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     user.fold(
       (l) => showSnackBar(context, l.message),
-      (userModel) => _ref.read(userProvider.notifier).update((state) => userModel),
+      (userModel) =>
+          _ref.read(userProvider.notifier).update((state) => userModel),
+    );
+  }
+
+  void signInWithEmail(
+      BuildContext context, String email, String password) async {
+    state = true;
+    final user = await _authRepository.signInWithEmail(email, password);
+    state = false;
+    user.fold(
+      (l) => showSnackBar(context, l.message),
+      (userModel) =>
+          _ref.read(userProvider.notifier).update((state) => userModel),
     );
   }
 
@@ -50,7 +63,8 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     user.fold(
       (l) => showSnackBar(context, l.message),
-      (userModel) => _ref.read(userProvider.notifier).update((state) => userModel),
+      (userModel) =>
+          _ref.read(userProvider.notifier).update((state) => userModel),
     );
   }
 

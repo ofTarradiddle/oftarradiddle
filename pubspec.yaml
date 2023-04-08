@@ -49,6 +49,7 @@ dependencies:
   uuid: ^3.0.6
   any_link_preview: ^2.0.9
   charts_flutter: ^0.12.0
+  dart_ml: ^0.0.7
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +78,8 @@ flutter:
     - assets/images/loginEmote.png
     - assets/images/logo.png
     - assets/images/awards/
+    - assets/images/ofnectar_logo.jpg
+    - assets/images/loginEmoteHor.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

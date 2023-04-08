@@ -37,7 +37,7 @@ class UserProfileRepository {
   Stream<List<Post>> getUserPosts(String uid) {
     return _posts
         .where('uid', isEqualTo: uid)
-        .orderBy('createdAt', descending: true)
+        //.orderBy('createdAt', descending: true)
         .snapshots()
         .map(
           (event) => event.docs

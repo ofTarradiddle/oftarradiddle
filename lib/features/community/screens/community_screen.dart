@@ -89,7 +89,7 @@ class CommunityScreen extends ConsumerWidget {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(50),
                                   ),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 25),
@@ -103,13 +103,27 @@ class CommunityScreen extends ConsumerWidget {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(50),
                                   ),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 25),
                                 ),
                                 child: const Text('View Statistics!'),
                               ),
+                              OutlinedButton(
+                                onPressed: () {
+                                  navigateToUserData(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25),
+                                ),
+                                child: const Text('View Group Statistics!'),
+                              ),
+
                               if (!isGuest)
                                 community.mods.contains(user.uid)
                                     ? OutlinedButton(
@@ -119,7 +133,7 @@ class CommunityScreen extends ConsumerWidget {
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                                BorderRadius.circular(50),
                                           ),
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 25),
@@ -132,7 +146,7 @@ class CommunityScreen extends ConsumerWidget {
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                                BorderRadius.circular(50),
                                           ),
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 25),

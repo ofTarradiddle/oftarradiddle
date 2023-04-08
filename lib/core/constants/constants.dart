@@ -4,8 +4,8 @@ import 'package:reddit_tutorial/features/home/screens/home_screen.dart';
 import 'package:reddit_tutorial/features/post/screens/add_post_screen.dart';
 
 class Constants {
-  static const logoPath = 'assets/images/logo.png';
-  static const loginEmotePath = 'assets/images/loginEmote.png';
+  static const logoPath = 'assets/images/ofnectar_logo.jpg';
+  static const loginEmotePath = 'assets/images/loginEmoteHor.jpg';
   static const googlePath = 'assets/images/google.png';
 
   static const bannerDefault =
@@ -18,8 +18,10 @@ class Constants {
     AddPostScreen(),
   ];
 
-  static const IconData up = IconData(0xe800, fontFamily: 'MyFlutterApp', fontPackage: null);
-  static const IconData down = IconData(0xe801, fontFamily: 'MyFlutterApp', fontPackage: null);
+  static const IconData up =
+      IconData(0xe800, fontFamily: 'MyFlutterApp', fontPackage: null);
+  static const IconData down =
+      IconData(0xe801, fontFamily: 'MyFlutterApp', fontPackage: null);
 
   static const awardsPath = 'assets/images/awards';
 

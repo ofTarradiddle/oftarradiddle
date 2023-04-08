@@ -113,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dart_ml:
+    dependency: "direct main"
+    description:
+      name: dart_ml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.7"
   dotted_border:
     dependency: "direct main"
     description:

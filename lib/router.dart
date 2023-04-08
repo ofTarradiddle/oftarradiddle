@@ -22,7 +22,7 @@ import 'package:routemaster/routemaster.dart';
 import 'features/community/screens/user_data_screen.dart';
 
 final loggedOutRoute = RouteMap(routes: {
-  '/': (_) => const MaterialPage(child: LoginScreen()),
+  '/': (_) => MaterialPage(child: LoginScreen()),
 });
 
 final loggedInRoute = RouteMap(

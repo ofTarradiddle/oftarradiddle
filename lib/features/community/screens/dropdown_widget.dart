@@ -155,8 +155,9 @@ class DropdownList extends ConsumerStatefulWidget {
 }
 
 class _DropdownListState extends ConsumerState<DropdownList> {
-  bool isOpen = false;
+  bool isOpen = true;
 
+  //todo this is not efficient, need to toggle without setstate so widget doesnt rebuild
   void toggleDropdown() {
     setState(() {
       isOpen = !isOpen;
@@ -182,7 +183,9 @@ class _DropdownListState extends ConsumerState<DropdownList> {
                         leading: const Icon(Icons.input),
                         title: Text(
                             '${study.name}   ${items.values.map((e) => e.toString()).join(',')}'),
-                        onTap: () => {toggleDropdown()},
+                        onTap: () => {
+                          //toggleDropdown()
+                        },
                       );
                     },
                   );

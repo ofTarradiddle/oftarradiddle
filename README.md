@@ -2,22 +2,40 @@
 
 Responsive Full Stack Reddit Clone - Works on Android, iOS & Web! 
 
+Self and group stats need better layouts 
+when I leave study stats I should go to study home page 
+logging into home page should be easier 
+
 
 TODO
-Add to Study page 
-  data entry for each study page 
+  Add analytics for inference--
+    interactive time chart with filter - sort analytics by time 
+    datatable 
+    -correlation matrix
+    -decision tree 
+    Add description of study on input page, and create page under field names 
+    -Add option for timeseries to single variable for scale 
 
-  switch between home page and ...
-  DataEntry Page
-  analytics page with datatable and timeseries drop downs, others later
-    - mock group analytics page (not enough participants )
-  favorited studies move to top of list - similar to what I already have 
+  View--
+    profile doesnt show posts (need index), also post page comments doesnt show comments(also needs index), + screen is off sometimes
+    -when done with data entry, go back to study page
+    -what is wrong with the search
 
-sign in with email 
-fix sign in so it propogates
-see if search can be quicker, is my solution better?
+  Ease for accesing home page--
+    add sign in with email, 
+    -logging in doesnt bring to home screen, 
+    -isAuthenticated not propgating, 
 
--> make custom with of nectar style 
+252
+
+For launch--
+  Permissions / TOS
+  add ios and android setup, 
+  test -> production mode 
+  add advertisements (capability) https://codelabs.developers.google.com/codelabs/admob-ads-in-flutter#2
+
+Add custom styling--
+  -> make custom with of nectar style 
 
 
 ## Features

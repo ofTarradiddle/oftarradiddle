@@ -224,9 +224,7 @@ class _AddDataScreenState extends ConsumerState<AddDataScreen> {
                   }
                   loaded = 1;
                 }
-
                 final field = community.fieldNames[index];
-
                 return TextField(
                   controller: _controllers[index],
                   decoration: InputDecoration(
