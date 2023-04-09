@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +16,9 @@ import '../controller/community_controller.dart';
 //add other analytics drop downs (correlation, decision tree)
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class TimeSeriesSales {
   final DateTime time;
@@ -203,6 +208,198 @@ class _DropdownListState extends ConsumerState<DropdownList> {
   }
 }
 
+class CorrelationTable extends ConsumerStatefulWidget {
+  final String name;
+  final String userId;
+
+  // ignore: prefer_const_constructors_in_immutables
+  CorrelationTable({super.key, required this.name, required this.userId});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _CorrelationTableState createState() => _CorrelationTableState();
+}
+
+class _CorrelationTableState extends ConsumerState<CorrelationTable> {
+  Map<String, Map<String, double>> correlations = {};
+
+  void computeCorrelations(List studyData) {
+    // Clear existing correlations
+    correlations.clear();
+
+    // Compute correlations between all pairs of fields
+    for (final entry
+        in studyData.where((entry) => entry.userId == widget.userId)) {
+      for (final fieldName1 in entry.data.keys) {
+        final data1 = double.tryParse(entry.data[fieldName1] ?? '');
+        if (data1 == null) continue;
+
+        for (final fieldName2 in entry.data.keys) {
+          final data2 = double.tryParse(entry.data[fieldName2] ?? '');
+          if (data2 == null) continue;
+
+          final corrKey = [fieldName1, fieldName2].join(' vs ');
+          if (!correlations.containsKey(corrKey)) {
+            correlations[corrKey] = {
+              'correlation': 0.0,
+              'count': 0.0,
+              'sum1': 0.0,
+              'sum2': 0.0,
+              'sumSquares1': 0.0,
+              'sumSquares2': 0.0
+            };
+          }
+
+          final corrEntry = correlations[corrKey]!;
+          corrEntry['count'] = corrEntry['count']! + 1;
+          corrEntry['sum1'] = corrEntry['sum1']! + data1;
+          corrEntry['sum2'] = corrEntry['sum2']! + data2;
+          corrEntry['sumSquares1'] = corrEntry['sumSquares1']! + data1 * data1;
+          corrEntry['sumSquares2'] = corrEntry['sumSquares2']! + data2 * data2;
+
+          //
+
+          final numerator =
+              corrEntry['count']! * corrEntry['sum1']! * corrEntry['sum2']! -
+                  corrEntry['sum1']! * corrEntry['sum2']!;
+
+          final denominator = sqrt(
+              (corrEntry['count']! * corrEntry['sumSquares1']! -
+                      corrEntry['sum1']! * corrEntry['sum1']!) *
+                  (corrEntry['count']! * corrEntry['sumSquares2']! -
+                      corrEntry['sum2']! * corrEntry['sum2']!));
+
+          corrEntry['correlation'] = numerator / denominator;
+        }
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ref.watch(getCommunityDataProvider(widget.name)).when(
+        data: (studyData) {
+          computeCorrelations(studyData);
+
+          final corrData = <List<dynamic>>[];
+          for (final entry in correlations.entries) {
+            corrData.add(
+                [entry.key, entry.value['correlation']?.toStringAsFixed(2)]);
+          }
+
+          return Card(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columns: const [
+                  DataColumn(label: Text('Correlation')),
+                  DataColumn(label: Text('Value')),
+                ],
+                rows: corrData.map((entry) {
+                  return DataRow(cells: [
+                    DataCell(Text(entry[0])),
+                    DataCell(Text(entry[1])),
+                  ]);
+                }).toList(),
+              ),
+            ),
+          );
+        },
+        loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+        error: (Object error, StackTrace stackTrace) {
+          return ErrorText(error: error.toString());
+        });
+  }
+}
+
+// decision tree
+
+// class Node {
+//   String label;
+//   List<Node> children;
+
+//   Node({required this.label, required this.children});
+// }
+
+// class DecisionTreeWidget extends StatelessWidget {
+//   final String userId;
+
+//   const DecisionTreeWidget({
+//     Key? key,
+//     required this.userId,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // Build the decision tree here
+//     // ...
+
+//     return Text('Decision Tree for User $userId');
+//   }
+// }
+
+// class DecisionTreePainter extends CustomPainter {
+//   final Node tree;
+//   final double nodeRadius = 25.0;
+//   final double nodePadding = 10.0;
+//   final double levelPadding = 50.0;
+//   final double lineWidth = 3.0;
+//   final Color lineColor = Colors.black;
+
+//   late Paint _nodePaint;
+//   late Paint _linePaint;
+//   late TextPainter _textPainter;
+
+//   DecisionTreePainter(this.tree) {
+//     _nodePaint = Paint()..color = Colors.green;
+//     _linePaint = Paint()
+//       ..color = lineColor
+//       ..strokeWidth = lineWidth;
+//     _textPainter = TextPainter(
+//       textDirection: TextDirection.ltr,
+//       textAlign: TextAlign.center,
+//     );
+//   }
+
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     _drawNode(canvas, tree, 0, size.width / 2, 0, size.height, 0);
+//   }
+
+//   void _drawNode(Canvas canvas, Node node, int level, double x, double y,
+//       double maxX, double maxY) {
+//     // Draw node
+//     canvas.drawCircle(Offset(x, y), nodeRadius, _nodePaint);
+
+//     // Draw label
+//     _textPainter.text = TextSpan(
+//       text: node.label,
+//       style: const TextStyle(color: Colors.white, fontSize: 16),
+//     );
+//     _textPainter.layout();
+//     _textPainter.paint(canvas,
+//         Offset(x - _textPainter.width / 2, y - _textPainter.height / 2));
+
+//     // Draw children
+//     final childCount = node.children.length;
+//     final childX = x - ((childCount - 1) * levelPadding) / 2;
+//     final childY = y + nodeRadius + nodePadding;
+//     for (int i = 0; i < childCount; i++) {
+//       final child = node.children[i];
+//       final childXPosition = childX + i * levelPadding;
+//       canvas.drawLine(Offset(x, y + nodeRadius),
+//           Offset(childXPosition, childY - nodeRadius), _linePaint);
+//       _drawNode(canvas, child, level + 1, childXPosition, childY, maxX, maxY);
+//     }
+//   }
+
+//   @override
+//   bool shouldRepaint(DecisionTreePainter oldDelegate) {
+//     return oldDelegate.tree != tree;
+//   }
+// }
 
 /*
 class DDScreen extends ConsumerStatefulWidget {
